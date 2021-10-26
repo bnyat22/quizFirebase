@@ -28,9 +28,7 @@ class QuestionsWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(10),
           child: Text(
-            list[Provider.of<QuestionState>(context).index].questionText,
-            style: TextStyle(color: Colors.white),
-          ),
+              list[Provider.of<QuestionState>(context).index].questionText),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: Colors.white),
@@ -83,7 +81,7 @@ class QuestionsWidget extends StatelessWidget {
                   print(
                       Provider.of<QuestionState>(context, listen: false).index);
                 },
-                child: Text("Suivant", style: TextStyle(color: Colors.white))),
+                child: Text("Suivant")),
           ],
         ),
         SizedBox(

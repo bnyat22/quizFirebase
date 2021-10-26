@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:question/main.dart';
-import 'package:question/myWidgets/loading.dart';
+
 import 'package:question/myWidgets/textBox.dart';
 import 'package:question/models/question.dart';
-import 'package:question/pages/home.dart';
-import 'package:question/services/questionProvider.dart';
 
 // ignore: must_be_immutable
 class AddQuestion extends StatefulWidget {
@@ -43,7 +39,6 @@ class _AddQuestionState extends State<AddQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(title: Text("Ajouter")),
       body: Container(
         alignment: Alignment.topCenter,
@@ -60,7 +55,6 @@ class _AddQuestionState extends State<AddQuestion> {
             ),
             SizedBox(height: 10),
             Container(
-                color: Colors.white,
                 child: MyTextBox(
                     controller: controller, hintQuestion: hintQuestion)),
             SizedBox(height: 40),
@@ -169,7 +163,7 @@ class _AddQuestionState extends State<AddQuestion> {
     );
   }
 
-  TextStyle textStyles() => TextStyle(color: Colors.white, fontSize: 18);
+  TextStyle textStyles() => TextStyle(fontSize: 18);
   ButtonStyle buttonStyles() {
     return ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith<Color>(

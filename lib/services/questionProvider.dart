@@ -8,7 +8,7 @@ class QuestionState extends ChangeNotifier {
   QuestionState({required this.index});
   DatabaseReference firebase =
       FirebaseDatabase.instance.reference().child("questions");
-  bool vrai = false, faux = false, added = false;
+  bool vrai = false, faux = false, added = false, isOn = false;
   String question = "r";
 
   void next(int length) {
@@ -43,6 +43,24 @@ class QuestionState extends ChangeNotifier {
   void addedQuestion(String q) {
     question = q;
     this.added = true;
+    notifyListeners();
+  }
+
+  void changeTheme() {
+    if (this.isOn) {
+      this.isOn = false;
+    } else {
+      this.isOn = true;
+    }
+    notifyListeners();
+  }
+
+  void changeThemeBySettings(bool b) {
+    if (b) {
+      this.isOn = true;
+    } else {
+      this.isOn = false;
+    }
     notifyListeners();
   }
 }

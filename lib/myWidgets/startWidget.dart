@@ -29,7 +29,6 @@ class StartWidget extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Text(
               list[Provider.of<QuestionState>(context).index].questionText,
-              style: TextStyle(color: Colors.white),
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),

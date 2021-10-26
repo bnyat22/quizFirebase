@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:question/myWidgets/questionWidget.dart';
 import 'package:question/myWidgets/startWidget.dart';
@@ -18,9 +19,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final ref = FirebaseDatabase.instance.reference().child("questions");
   List<Question> list = List.empty(growable: true);
+  var brightness = SchedulerBinding.instance!.window;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+
+    bool isDark = Brightness.dark == brightness;
+    Provider.of<QuestionState>(context, listen: false)
+        .changeThemeBySettings(isDark);
+  }
 
   @override
   Widget build(BuildContext context) {
+    brightness.onPlatformBrightnessChanged = () {
+      print("goraaa");
+      var bright = brightness.platformBrightness;
+      bool isDark = bright == Brightness.dark;
+      Provider.of<QuestionState>(context, listen: false)
+          .changeThemeBySettings(isDark);
+    };
     Question question = new Question(
         questionText: "QuizApplication", isCorrect: true, reponse: "reponse");
     list.add(question);
@@ -44,12 +64,46 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       }
     });
+
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.amber),
+      theme: ThemeData(
+        primaryColor: Colors.amber,
+        brightness: Brightness.light,
+      ),
+      themeMode: Provider.of<QuestionState>(context).isOn
+          ? ThemeMode.dark
+          : ThemeMode.light,
+      darkTheme: ThemeData(
+          primaryColor: Colors.amber,
+          colorScheme: ColorScheme(
+              primary: Colors.amber,
+              primaryVariant: Colors.amberAccent,
+              secondary: Colors.black,
+              secondaryVariant: Colors.white,
+              surface: Colors.white,
+              background: Colors.black,
+              error: Colors.white,
+              onPrimary: Colors.white,
+              onSecondary: Colors.black,
+              onSurface: Colors.amber,
+              onBackground: Colors.black,
+              onError: Colors.red,
+              brightness: Brightness.dark)),
       home: Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text("Questions/Réponses"),
+          actions: [
+            Switch(
+                value: Provider.of<QuestionState>(context, listen: false).isOn,
+                onChanged: (val) {
+                  Provider.of<QuestionState>(context, listen: false)
+                      .changeTheme();
+                  print("ll " +
+                      Provider.of<QuestionState>(context, listen: false)
+                          .isOn
+                          .toString());
+                }),
+          ],
           centerTitle: true,
         ),
         body: Container(
