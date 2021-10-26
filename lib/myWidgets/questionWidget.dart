@@ -87,8 +87,7 @@ class QuestionsWidget extends StatelessWidget {
         SizedBox(
           height: 60,
         ),
-        Text(Provider.of<QuestionState>(context).reponse,
-            style: TextStyle(color: Colors.white)),
+        Text(Provider.of<QuestionState>(context).reponse),
         SizedBox(
           height: 80,
         ),
